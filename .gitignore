@@ -1,0 +1,6 @@
+# Build output
+bin/
+obj/
+
+# Local reference assemblies (copy from your SPT install — not redistributable)
+libs/
