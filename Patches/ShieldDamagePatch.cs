@@ -2,10 +2,10 @@ using System.Reflection;
 using EFT;
 using EFT.Ballistics;
 using HarmonyLib;
-using RZSkills.Client.Skills;
+using CombatAugmentationSystem.Client.Skills;
 using SPT.Reflection.Patching;
 
-namespace RZSkills.Client.Patches;
+namespace CombatAugmentationSystem.Client.Patches;
 
 /// <summary>
 /// 护盾伤害拦截补丁：主玩家即将承受伤害时，先过一遍立场盾判定——

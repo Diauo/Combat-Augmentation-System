@@ -3,7 +3,7 @@ using EFT;
 using EFT.HealthSystem;
 using UnityEngine;
 
-namespace RZSkills.Client.Core;
+namespace CombatAugmentationSystem.Client.Core;
 
 public enum TargetKind
 {

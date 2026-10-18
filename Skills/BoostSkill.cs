@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using EFT;
 using EFT.HealthSystem;
-using RZSkills.Client.Core;
+using CombatAugmentationSystem.Client.Core;
 using UnityEngine;
 
-namespace RZSkills.Client.Skills;
+namespace CombatAugmentationSystem.Client.Skills;
 
 /// <summary>
 /// 「超频 | COMBAT OVERDRIVE」绝境最后一搏（能量驱动的战斗针剂）：
@@ -70,7 +70,7 @@ public sealed class BoostSkill : SkillBase
     {
         if (IsActive)
         {
-            Plugin.Log.LogInfo("[RZSkills] Boost deactivated (manual)");
+            Plugin.Log.LogInfo("[CAS] Boost deactivated (manual)");
             EndNow();
             return true;
         }
@@ -96,7 +96,7 @@ public sealed class BoostSkill : SkillBase
             {
                 if (hc.Energy.Current < min)
                 {
-                    Plugin.Log.LogInfo($"[RZSkills] boost refused: energy {hc.Energy.Current:0.#} < {min:0.#}");
+                    Plugin.Log.LogInfo($"[CAS] boost refused: energy {hc.Energy.Current:0.#} < {min:0.#}");
                     return false;
                 }
             }
@@ -117,7 +117,7 @@ public sealed class BoostSkill : SkillBase
         _nextPurge = Time.unscaledTime + PurgeInterval;
 
         Plugin.Log.LogInfo(
-            $"[RZSkills] Boost activated: drain={RzConfig.BoostEnergyDrain.Value:0.#}/s, " +
+            $"[CAS] Boost activated: drain={RzConfig.BoostEnergyDrain.Value:0.#}/s, " +
             $"regen={RzConfig.BoostHealthRegen.Value:0.#}/s, dmg-={RzConfig.BoostDamageReduction.Value:0}%");
         return true;
     }
@@ -140,7 +140,7 @@ public sealed class BoostSkill : SkillBase
                 hc.ChangeEnergy(-RzConfig.BoostEnergyDrain.Value * deltaTime);
                 if (hc.Energy.Current <= 0f)
                 {
-                    Plugin.Log.LogInfo("[RZSkills] Boost ended: energy depleted");
+                    Plugin.Log.LogInfo("[CAS] Boost ended: energy depleted");
                     EndNow();
                     return;
                 }
@@ -175,7 +175,7 @@ public sealed class BoostSkill : SkillBase
     protected override void OnEndActive()
     {
         RevertAll();
-        Plugin.Log.LogInfo("[RZSkills] Boost ended — cooldown started");
+        Plugin.Log.LogInfo("[CAS] Boost ended — cooldown started");
     }
 
     public override void Dispose()
@@ -559,7 +559,7 @@ public sealed class BoostSkill : SkillBase
             }
 
             Plugin.Log.LogInfo(
-                $"[RZSkills] Boost skill buffs +{baseAmount} (strength +{baseAmount + strengthExtra}) x {_buffedSkills.Count} skill(s)");
+                $"[CAS] Boost skill buffs +{baseAmount} (strength +{baseAmount + strengthExtra}) x {_buffedSkills.Count} skill(s)");
         }
         catch (Exception ex)
         {

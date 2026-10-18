@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RZSkills.Client.Core;
+namespace CombatAugmentationSystem.Client.Core;
 
 /// <summary>
 /// 统一相机解析：优先 "FPS Camera"（不要求其处于激活状态——开镜等瞬间状态切换时仍有效），

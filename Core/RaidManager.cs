@@ -1,11 +1,11 @@
 using Comfort.Common;
 using EFT;
-using RZSkills.Client.Inputs;
-using RZSkills.Client.Skills;
-using RZSkills.Client.Visuals;
+using CombatAugmentationSystem.Client.Inputs;
+using CombatAugmentationSystem.Client.Skills;
+using CombatAugmentationSystem.Client.Visuals;
 using UnityEngine;
 
-namespace RZSkills.Client.Core;
+namespace CombatAugmentationSystem.Client.Core;
 
 /// <summary>战局内运行时宿主：持有 GameWorld / 玩家引用与全部技能服务。</summary>
 public class RaidManager : MonoBehaviour
@@ -39,7 +39,7 @@ public class RaidManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Plugin.Log.LogWarning("[RZSkills] duplicate RaidManager destroyed");
+            Plugin.Log.LogWarning("[CAS] duplicate RaidManager destroyed");
             Destroy(this);
             return;
         }
@@ -55,7 +55,7 @@ public class RaidManager : MonoBehaviour
         _overlay = new OverlayService(this);
 
         GameWorld.OnDispose += HandleWorldDispose;
-        Plugin.Log.LogInfo("[RZSkills] RaidManager attached");
+        Plugin.Log.LogInfo("[CAS] RaidManager attached");
     }
 
     private void TryBind()
@@ -200,7 +200,7 @@ public class RaidManager : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogError($"[RZSkills] wheel close failed: {ex}");
+            Plugin.Log.LogError($"[CAS] wheel close failed: {ex}");
         }
 
         try
@@ -209,7 +209,7 @@ public class RaidManager : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogError($"[RZSkills] cursor release failed: {ex}");
+            Plugin.Log.LogError($"[CAS] cursor release failed: {ex}");
         }
 
         try
@@ -218,7 +218,7 @@ public class RaidManager : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogError($"[RZSkills] scan dispose failed: {ex}");
+            Plugin.Log.LogError($"[CAS] scan dispose failed: {ex}");
         }
 
         try
@@ -227,7 +227,7 @@ public class RaidManager : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogError($"[RZSkills] shield dispose failed: {ex}");
+            Plugin.Log.LogError($"[CAS] shield dispose failed: {ex}");
         }
 
         try
@@ -236,7 +236,7 @@ public class RaidManager : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogError($"[RZSkills] boost dispose failed: {ex}");
+            Plugin.Log.LogError($"[CAS] boost dispose failed: {ex}");
         }
 
         if (ShieldGate.Active == _shield)
@@ -248,7 +248,7 @@ public class RaidManager : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogError($"[RZSkills] chams dispose failed: {ex}");
+            Plugin.Log.LogError($"[CAS] chams dispose failed: {ex}");
         }
 
         try
@@ -257,7 +257,7 @@ public class RaidManager : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogError($"[RZSkills] overlay dispose failed: {ex}");
+            Plugin.Log.LogError($"[CAS] overlay dispose failed: {ex}");
         }
 
         CapsLockHook.Uninstall();
@@ -271,6 +271,6 @@ public class RaidManager : MonoBehaviour
         if (Instance == this)
             Instance = null;
 
-        Plugin.Log.LogInfo("[RZSkills] RaidManager destroyed");
+        Plugin.Log.LogInfo("[CAS] RaidManager destroyed");
     }
 }

@@ -2,7 +2,7 @@ using System;
 using EFT.Ballistics;
 using UnityEngine;
 
-namespace RZSkills.Client.Visuals;
+namespace CombatAugmentationSystem.Client.Visuals;
 
 /// <summary>
 /// 盾面弹道碰撞体：子弹物理拦截——

@@ -2,7 +2,7 @@ using System;
 using Comfort.Common;
 using EFT.Settings;
 
-namespace RZSkills.Client.Core;
+namespace CombatAugmentationSystem.Client.Core;
 
 /// <summary>
 /// 界面文案语言：跟随游戏界面语言（"ch" = 中文，其余回退英文）。

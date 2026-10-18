@@ -2,11 +2,11 @@ using System.Reflection;
 using EFT;
 using EFT.Ballistics;
 using HarmonyLib;
-using RZSkills.Client.Skills;
+using CombatAugmentationSystem.Client.Skills;
 using SPT.Reflection.Patching;
 using UnityEngine;
 
-namespace RZSkills.Client.Patches;
+namespace CombatAugmentationSystem.Client.Patches;
 
 /// <summary>
 /// 护盾单向穿透（实例路径）：Shot.IsHitIgnored 命中过滤——

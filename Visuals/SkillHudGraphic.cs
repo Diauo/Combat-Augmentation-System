@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RZSkills.Client.Visuals;
+namespace CombatAugmentationSystem.Client.Visuals;
 
 /// <summary>
 /// 技能 HUD 单网格绘制器：一次 OnPopulateMesh 画完

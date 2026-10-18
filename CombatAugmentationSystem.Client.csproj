@@ -5,8 +5,8 @@
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>RZSkills</AssemblyName>
-    <RootNamespace>RZSkills.Client</RootNamespace>
+    <AssemblyName>CombatAugmentationSystem</AssemblyName>
+    <RootNamespace>CombatAugmentationSystem.Client</RootNamespace>
     <Version>1.0.0</Version>
   </PropertyGroup>
 

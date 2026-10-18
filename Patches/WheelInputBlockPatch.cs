@@ -3,10 +3,10 @@ using System.Reflection;
 using EFT;
 using EFT.InputSystem;
 using HarmonyLib;
-using RZSkills.Client.Inputs;
+using CombatAugmentationSystem.Client.Inputs;
 using SPT.Reflection.Patching;
 
-namespace RZSkills.Client.Patches;
+namespace CombatAugmentationSystem.Client.Patches;
 
 /// <summary>轮盘展开时：拦掉全部游戏操作指令（防误射 / 误交互）。</summary>
 public class WheelCommandBlockPatch : ModulePatch

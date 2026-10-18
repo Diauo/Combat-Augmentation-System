@@ -1,10 +1,10 @@
 using EFT;
 using EFT.Ballistics;
-using RZSkills.Client.Core;
-using RZSkills.Client.Visuals;
+using CombatAugmentationSystem.Client.Core;
+using CombatAugmentationSystem.Client.Visuals;
 using UnityEngine;
 
-namespace RZSkills.Client.Skills;
+namespace CombatAugmentationSystem.Client.Skills;
 
 /// <summary>全局门面：伤害拦截 / 穿透豁免补丁通过它找到当前战局的护盾（无战局时为空）。</summary>
 internal static class ShieldGate
@@ -56,7 +56,7 @@ public sealed class ShieldSkill : SkillBase
     {
         if (IsActive)
         {
-            Plugin.Log.LogInfo("[RZSkills] shield off (manual)");
+            Plugin.Log.LogInfo("[CAS] shield off (manual)");
             EndNow();
             return true;
         }
@@ -99,7 +99,7 @@ public sealed class ShieldSkill : SkillBase
         _visual.Tick(0f);
 
         Plugin.Log.LogInfo(
-            $"[RZSkills] Shield activated: durability={_durabilityMax:0}, size={panelSize:0.0}m, " +
+            $"[CAS] Shield activated: durability={_durabilityMax:0}, size={panelSize:0.0}m, " +
             $"panels={_visual.PanelCount}, drain={RzConfig.ShieldEnergyDrain.Value:0.#}/s");
         return true;
     }
@@ -121,7 +121,7 @@ public sealed class ShieldSkill : SkillBase
                     hc.ChangeEnergy(-RzConfig.ShieldEnergyDrain.Value * deltaTime);
                     if (hc.Energy.Current <= 0f)
                     {
-                        Plugin.Log.LogInfo("[RZSkills] shield off: energy depleted");
+                        Plugin.Log.LogInfo("[CAS] shield off: energy depleted");
                         EndNow();
                         return;
                     }
@@ -155,7 +155,7 @@ public sealed class ShieldSkill : SkillBase
     protected override void OnEndActive()
     {
         _visual.SetVisible(false);
-        Plugin.Log.LogInfo("[RZSkills] shield ended — cooldown started");
+        Plugin.Log.LogInfo("[CAS] shield ended — cooldown started");
     }
 
     /// <summary>单向穿透武装状态：护盾激活且未摧毁（供 CheckCollision 谓词包裹快速门控）。</summary>
@@ -194,7 +194,7 @@ public sealed class ShieldSkill : SkillBase
         if (_durabilityLeft <= 0f)
         {
             _durabilityLeft = 0f;
-            Plugin.Log.LogInfo($"[RZSkills] Shield broken (last hit dmg={damage:0.#} pen={penetration:0})");
+            Plugin.Log.LogInfo($"[CAS] Shield broken (last hit dmg={damage:0.#} pen={penetration:0})");
             EndNow();
         }
         else
@@ -243,7 +243,7 @@ public sealed class ShieldSkill : SkillBase
         if (_durabilityLeft <= 0f)
         {
             _durabilityLeft = 0f;
-            Plugin.Log.LogInfo($"[RZSkills] Shield broken (absorbed {absorbed:0.#})");
+            Plugin.Log.LogInfo($"[CAS] Shield broken (absorbed {absorbed:0.#})");
             EndNow();
         }
         else

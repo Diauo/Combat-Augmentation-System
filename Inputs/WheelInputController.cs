@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using RZSkills.Client.Core;
-using RZSkills.Client.Skills;
+using CombatAugmentationSystem.Client.Core;
+using CombatAugmentationSystem.Client.Skills;
 using UnityEngine;
 
-namespace RZSkills.Client.Inputs;
+namespace CombatAugmentationSystem.Client.Inputs;
 
 /// <summary>轮盘展开的状态标志（供输入冻结补丁查询）。</summary>
 internal static class WheelGate
@@ -151,7 +151,7 @@ internal sealed class WheelInputController
         }
 
         bool activated = skill.TryActivate();
-        Plugin.Log.LogInfo($"[RZSkills] cast '{skill.Id}': {(activated ? "activated" : "refused")}");
+        Plugin.Log.LogInfo($"[CAS] cast '{skill.Id}': {(activated ? "activated" : "refused")}");
     }
 
     /// <summary>切换冷却加速（需有技能正在冷却、且水分高于阈值）。</summary>
@@ -173,7 +173,7 @@ internal sealed class WheelInputController
         if (SkillBase.CooldownBoostActive)
         {
             SkillBase.CooldownBoostActive = false;
-            Plugin.Log.LogInfo("[RZSkills] cooldown boost: OFF");
+            Plugin.Log.LogInfo("[CAS] cooldown boost: OFF");
             return;
         }
 
@@ -191,12 +191,12 @@ internal sealed class WheelInputController
         if (hydration <= RzConfig.WaterThreshold.Value)
         {
             Plugin.Log.LogInfo(
-                $"[RZSkills] cooldown boost refused: hydration {hydration:0} <= threshold {RzConfig.WaterThreshold.Value:0}");
+                $"[CAS] cooldown boost refused: hydration {hydration:0} <= threshold {RzConfig.WaterThreshold.Value:0}");
             return;
         }
 
         SkillBase.CooldownBoostActive = true;
-        Plugin.Log.LogInfo("[RZSkills] cooldown boost: ON");
+        Plugin.Log.LogInfo("[CAS] cooldown boost: ON");
     }
 
     private void CommitSelection()
@@ -205,7 +205,7 @@ internal sealed class WheelInputController
             return;
 
         _selectedIndex = _highlighted;
-        Plugin.Log.LogInfo($"[RZSkills] selected '{_skills[_selectedIndex].Id}'");
+        Plugin.Log.LogInfo($"[CAS] selected '{_skills[_selectedIndex].Id}'");
     }
 
     private void OpenWheel()
@@ -214,7 +214,7 @@ internal sealed class WheelInputController
         _highlighted = -1;
         WheelGate.IsOpen = true;
         CursorGate.Enter();
-        Plugin.Log.LogInfo("[RZSkills] wheel opened");
+        Plugin.Log.LogInfo("[CAS] wheel opened");
     }
 
     private void CloseWheel()
@@ -223,7 +223,7 @@ internal sealed class WheelInputController
         _awaitRelease = true;
         WheelGate.IsOpen = false;
         CursorGate.Exit();
-        Plugin.Log.LogInfo("[RZSkills] wheel closed");
+        Plugin.Log.LogInfo("[CAS] wheel closed");
     }
 
     private void UpdateHighlight()

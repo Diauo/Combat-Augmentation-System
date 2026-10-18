@@ -1,8 +1,8 @@
 using EFT.HealthSystem;
-using RZSkills.Client.Core;
+using CombatAugmentationSystem.Client.Core;
 using UnityEngine;
 
-namespace RZSkills.Client.Skills;
+namespace CombatAugmentationSystem.Client.Skills;
 
 /// <summary>
 /// 技能公共底座：能量消耗 / 冷却（含水分加速）/ 状态文本 / 激活与生命周期流程。
@@ -101,21 +101,21 @@ public abstract class SkillBase : ISkill
             float lockout = RzConfig.EnergyLockout.Value;
             if (health != null && energy <= lockout)
             {
-                Plugin.Log.LogInfo($"[RZSkills] {Id} refused: low-energy lockout ({energy:0.#} <= {lockout:0.#})");
+                Plugin.Log.LogInfo($"[CAS] {Id} refused: low-energy lockout ({energy:0.#} <= {lockout:0.#})");
                 return false;
             }
 
             float cost = EnergyCostValue;
             if (health == null || energy < cost)
             {
-                Plugin.Log.LogInfo($"[RZSkills] {Id} refused: energy insufficient");
+                Plugin.Log.LogInfo($"[CAS] {Id} refused: energy insufficient");
                 return false;
             }
         }
 
         if (!OnActivate())
         {
-            Plugin.Log.LogInfo($"[RZSkills] {Id} refused: constraint");
+            Plugin.Log.LogInfo($"[CAS] {Id} refused: constraint");
             return false;
         }
 

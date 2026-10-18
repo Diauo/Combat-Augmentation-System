@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using EFT;
-using RZSkills.Client.Core;
+using CombatAugmentationSystem.Client.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace RZSkills.Client.Visuals;
+namespace CombatAugmentationSystem.Client.Visuals;
 
 /// <summary>
 /// 穿墙剪影（v7：材质副本识别修复）。
 ///  · 关键教训：游戏在死亡/尸体化时会把材质【实例化成副本】——视觉相同、对象不同。
-///    旧版按实例比对全部漏判。现在一律按【材质名】识别（"RZSkills" 前缀，副本同名）。
+///    旧版按实例比对全部漏判。现在一律按【材质名】识别（"CombatAugmentationSystem" 前缀，副本同名）。
 ///  · 真·身体网格：PlayerBody.BodySkins × LoddedSkin.GetRenderers()（含全部 LOD）。
 ///  · 死亡事件订阅 + Player 销毁容忍 + 尸体扫描 + 全局副本清扫（按网格名/物件名档案恢复原貌）。
 ///  · 防护：状态先行注册 / Maintain / 双时点复查（1.5s + 5s）/ 计数日志。
@@ -19,7 +19,7 @@ public sealed class ChamsService : System.IDisposable
 {
     private const float VerifySweepDelay = 1.5f;
     private const float VerifySweepDelayLong = 5f;
-    private const string ChamMaterialPrefix = "RZSkills";
+    private const string ChamMaterialPrefix = "CombatAugmentationSystem";
 
     private sealed class TargetState
     {
@@ -56,11 +56,11 @@ public sealed class ChamsService : System.IDisposable
     internal void RebuildMaterials()
     {
         if (_pmc == null)
-            _pmc = CreateMaterial("RZSkills PMC");
+            _pmc = CreateMaterial("CombatAugmentationSystem PMC");
         if (_scav == null)
-            _scav = CreateMaterial("RZSkills Scav");
+            _scav = CreateMaterial("CombatAugmentationSystem Scav");
         if (_boss == null)
-            _boss = CreateMaterial("RZSkills Boss");
+            _boss = CreateMaterial("CombatAugmentationSystem Boss");
 
         ApplyColor(_pmc, RzConfig.PmcChamColor.Value);
         ApplyColor(_scav, RzConfig.ScavChamColor.Value);
@@ -258,17 +258,17 @@ public sealed class ChamsService : System.IDisposable
         }
         catch (Exception ex)
         {
-            Plugin.Log.LogWarning($"[RZSkills] chams restore failed: {ex.Message}");
+            Plugin.Log.LogWarning($"[CAS] chams restore failed: {ex.Message}");
         }
 
         Plugin.Log.LogInfo(
-            $"[RZSkills] chams restore: reverted={reverted} guest={guest} guestName={guestName} " +
+            $"[CAS] chams restore: reverted={reverted} guest={guest} guestName={guestName} " +
             $"missed={missed} null={skippedNull} notwearing={skippedNotWearing} " +
             $"playerNull={player == null} corpseScan={_candidates.Count > 0}");
 
         if (missed > 0)
             Plugin.Log.LogWarning(
-                $"[RZSkills] chams restore left {missed} renderer(s) — please report to RZ-99");
+                $"[CAS] chams restore left {missed} renderer(s) — please report to RZ-99");
 
         var now = Time.unscaledTime;
         _pending.Add(new PendingVerify { Player = player!, State = state, DueTime = now + VerifySweepDelay });
@@ -315,7 +315,7 @@ public sealed class ChamsService : System.IDisposable
                     stillMissing++;
             }
 
-            // 全局副本清扫：任何尸体上的"RZSkills"材质（含实例化副本）一并恢复
+            // 全局副本清扫：任何尸体上的"CombatAugmentationSystem"材质（含实例化副本）一并恢复
             fixedCount += SweepWorldCopies();
         }
         catch (Exception ex)
@@ -324,16 +324,16 @@ public sealed class ChamsService : System.IDisposable
         }
 
         if (fixedCount > 0)
-            Plugin.Log.LogInfo($"[RZSkills] chams verify sweep fixed {fixedCount} late renderer(s)");
+            Plugin.Log.LogInfo($"[CAS] chams verify sweep fixed {fixedCount} late renderer(s)");
 
         if (stillMissing > 0)
             Plugin.Log.LogWarning(
-                $"[RZSkills] chams verify sweep: {stillMissing} renderer(s) still chammed (unrecoverable)");
+                $"[CAS] chams verify sweep: {stillMissing} renderer(s) still chammed (unrecoverable)");
         else if (fixedCount == 0)
             Plugin.Dbg("chams verify sweep clean");
     }
 
-    /// <summary>全局清扫：遍历所有尸体对象，恢复任何仍带 "RZSkills" 材质（含副本）的渲染器。</summary>
+    /// <summary>全局清扫：遍历所有尸体对象，恢复任何仍带 "CombatAugmentationSystem" 材质（含副本）的渲染器。</summary>
     private int SweepWorldCopies()
     {
         int fixedCount = 0;
@@ -368,7 +368,7 @@ public sealed class ChamsService : System.IDisposable
                         unknown++;
                         if (unknown <= 3)
                             Plugin.Log.LogWarning(
-                                $"[RZSkills] chams orphan copy on '{renderer.gameObject.name}' could not be restored");
+                                $"[CAS] chams orphan copy on '{renderer.gameObject.name}' could not be restored");
                     }
                 }
             }
@@ -536,11 +536,11 @@ public sealed class ChamsService : System.IDisposable
         {
             if (IsWearingCham(renderer))
             {
-                // 已带 RZSkills 材质（残留副本/转移）：不采集为原始外观 → 恢复时走档案
+                // 已带 CombatAugmentationSystem 材质（残留副本/转移）：不采集为原始外观 → 恢复时走档案
                 state.Renderers.Add(renderer);
                 state.Originals.Add(null);
                 state.OriginalOcclusion.Add(true);
-                Plugin.Log.LogWarning("[RZSkills] chams: renderer appeared pre-chammed (name match)");
+                Plugin.Log.LogWarning("[CAS] chams: renderer appeared pre-chammed (name match)");
             }
             else
             {
@@ -658,7 +658,7 @@ public sealed class ChamsService : System.IDisposable
         var shader = Shader.Find("Hidden/Internal-Colored");
         if (shader == null)
         {
-            Plugin.Log.LogError("[RZSkills] 'Hidden/Internal-Colored' shader not found");
+            Plugin.Log.LogError("[CAS] 'Hidden/Internal-Colored' shader not found");
             return null;
         }
 

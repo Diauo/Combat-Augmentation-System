@@ -1,10 +1,10 @@
 using System;
 using EFT.Ballistics;
 using EFT.NetworkPackets;
-using RZSkills.Client.Core;
+using CombatAugmentationSystem.Client.Core;
 using UnityEngine;
 
-namespace RZSkills.Client.Visuals;
+namespace CombatAugmentationSystem.Client.Visuals;
 
 /// <summary>
 /// 世界空间六角蜂窝盾面（v6：1:3 三面结构）：
@@ -53,7 +53,7 @@ internal sealed class ShieldVisual : IDisposable
         if (_root != null)
             return;
 
-        _root = new GameObject("RZSkills Shield");
+        _root = new GameObject("CombatAugmentationSystem Shield");
         _root.layer = ShieldLayers.Layer >= 0 ? ShieldLayers.Layer : 0;
         _transform = _root.transform;
         _panels.Clear();

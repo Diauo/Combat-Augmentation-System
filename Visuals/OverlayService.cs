@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using EFT;
-using RZSkills.Client.Core;
-using RZSkills.Client.Inputs;
-using RZSkills.Client.Skills;
+using CombatAugmentationSystem.Client.Core;
+using CombatAugmentationSystem.Client.Inputs;
+using CombatAugmentationSystem.Client.Skills;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RZSkills.Client.Visuals;
+namespace CombatAugmentationSystem.Client.Visuals;
 
 /// <summary>
 /// 战局内 HUD 覆盖层（sortingOrder 32000 的运行时 Canvas）：
@@ -52,7 +52,7 @@ public sealed class OverlayService : System.IDisposable
         if (_hudShown != show)
         {
             _hudShown = show;
-            Plugin.Log.LogInfo($"[RZSkills] HUD {(show ? "shown" : "hidden")} ({reason})");
+            Plugin.Log.LogInfo($"[CAS] HUD {(show ? "shown" : "hidden")} ({reason})");
             _canvas!.gameObject.SetActive(show);
         }
 
@@ -426,7 +426,7 @@ public sealed class OverlayService : System.IDisposable
 
     private Text CreateLabel()
     {
-        var go = new GameObject("RZSkills Label", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text), typeof(Outline));
+        var go = new GameObject("CombatAugmentationSystem Label", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text), typeof(Outline));
         go.transform.SetParent(_canvasRect, false);
 
         var label = go.GetComponent<Text>();
@@ -458,7 +458,7 @@ public sealed class OverlayService : System.IDisposable
 
         try
         {
-            var canvasGo = new GameObject("RZSkills Overlay", typeof(RectTransform), typeof(Canvas));
+            var canvasGo = new GameObject("CombatAugmentationSystem Overlay", typeof(RectTransform), typeof(Canvas));
             _canvas = canvasGo.GetComponent<Canvas>();
             _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             _canvas.sortingOrder = 32000;
@@ -476,12 +476,12 @@ public sealed class OverlayService : System.IDisposable
             _graphic.raycastTarget = false;
 
             _font = LoadFont();
-            Plugin.Log.LogInfo("[RZSkills] HUD overlay created");
+            Plugin.Log.LogInfo("[CAS] HUD overlay created");
             return true;
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogError($"[RZSkills] overlay init failed: {ex}");
+            Plugin.Log.LogError($"[CAS] overlay init failed: {ex}");
             return false;
         }
     }
@@ -540,7 +540,7 @@ public sealed class OverlayService : System.IDisposable
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogWarning($"[RZSkills] overlay dispose failed: {ex.Message}");
+            Plugin.Log.LogWarning($"[CAS] overlay dispose failed: {ex.Message}");
         }
 
         _canvas = null;

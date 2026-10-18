@@ -1,4 +1,4 @@
-namespace RZSkills.Client.Skills;
+namespace CombatAugmentationSystem.Client.Skills;
 
 /// <summary>技能框架的最小接口：注册 / 状态 / 每帧推进 / 激活。</summary>
 public interface ISkill

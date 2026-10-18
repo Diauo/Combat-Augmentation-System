@@ -2,10 +2,10 @@ using BepInEx;
 using BepInEx.Logging;
 using Comfort.Common;
 using EFT;
-using RZSkills.Client.Core;
-using RZSkills.Client.Patches;
+using CombatAugmentationSystem.Client.Core;
+using CombatAugmentationSystem.Client.Patches;
 
-namespace RZSkills.Client;
+namespace CombatAugmentationSystem.Client;
 
 /// <summary>
 /// Combat Augmentation System（Tushonka-800）— 战术增强系统（客户端，SPT 4.1.6 线）。
@@ -18,7 +18,7 @@ namespace RZSkills.Client;
 [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
 public class Plugin : BaseUnityPlugin
 {
-    public const string PluginGuid = "com.rz99.skills.client";
+    public const string PluginGuid = "com.rz99.combat-augmentation-system";
     public const string PluginName = "Combat Augmentation System";
     public const string PluginVersion = "1.0.0";
 
@@ -38,22 +38,22 @@ public class Plugin : BaseUnityPlugin
         {
             new WheelCommandBlockPatch().Enable();
             new WheelAxesBlockPatch().Enable();
-            Log.LogInfo($"[RZSkills] {PluginVersion} loaded (wheel input block enabled)");
+            Log.LogInfo($"[CAS] {PluginVersion} loaded (wheel input block enabled)");
         }
         catch (System.Exception ex)
         {
-            Log.LogError($"[RZSkills] Failed to enable input-block patches: {ex}");
+            Log.LogError($"[CAS] Failed to enable input-block patches: {ex}");
         }
 
         try
         {
             new GameStartPatch().Enable();
-            Log.LogInfo("[RZSkills] GameStart patch enabled");
+            Log.LogInfo("[CAS] GameStart patch enabled");
         }
         catch (System.Exception ex)
         {
             // 4.1 命名差异时静默降级：轮询兜底（Update）会负责挂载 RaidManager
-            Log.LogInfo($"[RZSkills] GameStart patch unavailable, poll fallback will attach: {ex.Message}");
+            Log.LogInfo($"[CAS] GameStart patch unavailable, poll fallback will attach: {ex.Message}");
         }
 
         try
@@ -62,11 +62,11 @@ public class Plugin : BaseUnityPlugin
             new ShieldPassThroughPatch().Enable();
             new ShieldPassThroughStaticPatch().Enable();
             new ShieldCheckCollisionPatch().Enable();
-            Log.LogInfo("[RZSkills] shield patches enabled");
+            Log.LogInfo("[CAS] shield patches enabled");
         }
         catch (System.Exception ex)
         {
-            Log.LogError($"[RZSkills] Failed to enable shield patches: {ex}");
+            Log.LogError($"[CAS] Failed to enable shield patches: {ex}");
         }
     }
 
@@ -87,7 +87,7 @@ public class Plugin : BaseUnityPlugin
                 return;
 
             world.gameObject.AddComponent<RaidManager>();
-            Log.LogInfo("[RZSkills] RaidManager attached (poll fallback)");
+            Log.LogInfo("[CAS] RaidManager attached (poll fallback)");
         }
         catch
         {
@@ -99,6 +99,6 @@ public class Plugin : BaseUnityPlugin
     internal static void Dbg(string message)
     {
         if (RzConfig.DebugLog.Value)
-            Log.LogInfo("[RZSkills][dbg] " + message);
+            Log.LogInfo("[CAS][dbg] " + message);
     }
 }

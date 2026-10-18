@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace RZSkills.Client.Inputs;
+namespace CombatAugmentationSystem.Client.Inputs;
 
 /// <summary>
 /// 进程内低级键盘钩子 —— 只处理 CapsLock 一个键：
@@ -61,13 +61,13 @@ internal static class CapsLockHook
             _hook = SetWindowsHookEx(WH_KEYBOARD_LL, _proc, hMod, 0);
 
             if (_hook == IntPtr.Zero)
-                Plugin.Log.LogWarning("[RZSkills] CapsLock hook install failed (Win32)");
+                Plugin.Log.LogWarning("[CAS] CapsLock hook install failed (Win32)");
             else
                 Plugin.Dbg("CapsLock hook installed");
         }
         catch (Exception ex)
         {
-            Plugin.Log.LogWarning($"[RZSkills] CapsLock hook exception: {ex.Message}");
+            Plugin.Log.LogWarning($"[CAS] CapsLock hook exception: {ex.Message}");
             _hook = IntPtr.Zero;
         }
 

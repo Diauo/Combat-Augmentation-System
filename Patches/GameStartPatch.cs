@@ -1,9 +1,9 @@
 using System.Reflection;
 using EFT;
-using RZSkills.Client.Core;
+using CombatAugmentationSystem.Client.Core;
 using SPT.Reflection.Patching;
 
-namespace RZSkills.Client.Patches;
+namespace CombatAugmentationSystem.Client.Patches;
 
 /// <summary>进战局后在 GameWorld 上挂载 RaidManager（一次/每局）。</summary>
 public class GameStartPatch : ModulePatch
@@ -22,7 +22,7 @@ public class GameStartPatch : ModulePatch
         if (__instance.gameObject.GetComponent<RaidManager>() != null)
             return;
 
-        Plugin.Log.LogInfo("[RZSkills] Game started — attaching RaidManager");
+        Plugin.Log.LogInfo("[CAS] Game started — attaching RaidManager");
         __instance.gameObject.AddComponent<RaidManager>();
     }
 }

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using EFT;
-using RZSkills.Client.Core;
-using RZSkills.Client.Visuals;
+using CombatAugmentationSystem.Client.Core;
+using CombatAugmentationSystem.Client.Visuals;
 using UnityEngine;
 
-namespace RZSkills.Client.Skills;
+namespace CombatAugmentationSystem.Client.Skills;
 
 /// <summary>
 /// 「扫描仪」（v3.3：遮挡/距离平衡）：
@@ -66,7 +66,7 @@ public sealed class ScanSkill : SkillBase
     {
         if (IsActive)
         {
-            Plugin.Log.LogInfo("[RZSkills] scanner off (manual)");
+            Plugin.Log.LogInfo("[CAS] scanner off (manual)");
             EndNow();
             return true;
         }
@@ -91,7 +91,7 @@ public sealed class ScanSkill : SkillBase
             {
                 if (hc.Energy.Current < min)
                 {
-                    Plugin.Log.LogInfo($"[RZSkills] scanner refused: energy {hc.Energy.Current:0.#} < {min:0.#}");
+                    Plugin.Log.LogInfo($"[CAS] scanner refused: energy {hc.Energy.Current:0.#} < {min:0.#}");
                     return false;
                 }
             }
@@ -118,7 +118,7 @@ public sealed class ScanSkill : SkillBase
         _nextSwitchTime = 0f;
 
         Plugin.Log.LogInfo(
-            $"[RZSkills] scanner on: box={RzConfig.ScanBoxSize.Value:0}% x{RzConfig.ScanBoxAspect.Value:0.00}, " +
+            $"[CAS] scanner on: box={RzConfig.ScanBoxSize.Value:0}% x{RzConfig.ScanBoxAspect.Value:0.00}, " +
             $"fov={fov:0}, processes={RzConfig.ScanProcesses.Value}, drain={RzConfig.ScanEnergyDrain.Value:0.#}/s");
         return true;
     }
@@ -141,7 +141,7 @@ public sealed class ScanSkill : SkillBase
                 hc.ChangeEnergy(-RzConfig.ScanEnergyDrain.Value * deltaTime);
                 if (hc.Energy.Current <= 0f)
                 {
-                    Plugin.Log.LogInfo("[RZSkills] scanner off: energy depleted");
+                    Plugin.Log.LogInfo("[CAS] scanner off: energy depleted");
                     EndNow();
                     return;
                 }
@@ -164,7 +164,7 @@ public sealed class ScanSkill : SkillBase
     protected override void OnEndActive()
     {
         ClearAll();
-        Plugin.Log.LogInfo("[RZSkills] scanner off — cooldown started");
+        Plugin.Log.LogInfo("[CAS] scanner off — cooldown started");
     }
 
     public override void Dispose()
@@ -445,7 +445,7 @@ public sealed class ScanSkill : SkillBase
             _chams.Apply(t.Player, t.Kind);
 
             Plugin.Log.LogInfo(
-                $"[RZSkills] marked '{NameOf(t)}' ({t.Kind}) d={t.Distance:0}m in {t.Required:0.0}s" +
+                $"[CAS] marked '{NameOf(t)}' ({t.Kind}) d={t.Distance:0}m in {t.Required:0.0}s" +
                 $"{(t.Occluded ? " [occluded]" : string.Empty)}");
         }
     }

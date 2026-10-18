@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace RZSkills.Client.Inputs;
+namespace CombatAugmentationSystem.Client.Inputs;
 
 /// <summary>
 /// 轮盘期间的光标 / UI 管理（FieldKit 同款做法 + 每帧重断言）：
@@ -101,7 +101,7 @@ internal static class CursorGate
         }
         catch (System.Exception ex)
         {
-            Plugin.Log.LogWarning($"[RZSkills] cursor exit failed: {ex.Message}");
+            Plugin.Log.LogWarning($"[CAS] cursor exit failed: {ex.Message}");
         }
     }
 
@@ -148,7 +148,7 @@ internal static class CursorGate
 
             var texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
             {
-                name = "RZSkills Cursor",
+                name = "CombatAugmentationSystem Cursor",
                 filterMode = FilterMode.Bilinear,
                 wrapMode = TextureWrapMode.Clamp,
                 hideFlags = HideFlags.HideAndDontSave,

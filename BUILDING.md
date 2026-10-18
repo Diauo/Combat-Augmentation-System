@@ -38,8 +38,8 @@ not redistributable):
 dotnet build -c Release
 ```
 
-Output: `bin/Release/netstandard2.1/RZSkills.dll`
+Output: `bin/Release/netstandard2.1/CombatAugmentationSystem.dll`
 
 ## Install
 
-Copy `RZSkills.dll` to `BepInEx/plugins/RZSkills/` in your SPT install.
+Copy `CombatAugmentationSystem.dll` to `BepInEx/plugins/CombatAugmentationSystem/` in your SPT install.

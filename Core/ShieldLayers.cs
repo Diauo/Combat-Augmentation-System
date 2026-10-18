@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using UnityEngine;
 
-namespace RZSkills.Client.Core;
+namespace CombatAugmentationSystem.Client.Core;
 
 /// <summary>
 /// 护盾弹道图层：把一个空闲图层注册进子弹的 HitMask（LayerMasksData 的静态字段），
@@ -34,7 +34,7 @@ internal static class ShieldLayers
             field.SetValue(null, (LayerMask)(original.value | (1 << layer)));
 
             Layer = layer;
-            Plugin.Log.LogInfo($"[RZSkills] shield ballistics layer {layer} registered into HitMask");
+            Plugin.Log.LogInfo($"[CAS] shield ballistics layer {layer} registered into HitMask");
         }
         catch (Exception ex)
         {
@@ -47,7 +47,7 @@ internal static class ShieldLayers
         Layer = LayerMask.NameToLayer("HighPolyCollider");
         if (Layer < 0)
             Layer = 0;
-        Plugin.Log.LogInfo($"[RZSkills] shield collider layer: {Layer} (HighPolyCollider; {reason})");
+        Plugin.Log.LogInfo($"[CAS] shield collider layer: {Layer} (HighPolyCollider; {reason})");
     }
 
     private static int FindFreeLayer()

@@ -1,7 +1,7 @@
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace RZSkills.Client;
+namespace CombatAugmentationSystem.Client;
 
 /// <summary>
 /// Combat Augmentation System 全部 BepInEx 配置项（F12 菜单）。
