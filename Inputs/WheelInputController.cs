@@ -77,6 +77,18 @@ internal sealed class WheelInputController
     {
         bool keyHeld = SkillKeyHeldNow();
 
+        // UI 遮挡（背包/容器/菜单打开中）：技能键归 UI 使用（背包里按 V 不应触发技能/轮盘），
+        // 手势整体挂起并在中断时静默复位。轮盘自身展开时除外。
+        if (IsUiBlocking())
+        {
+            if (_phase != Phase.Idle || _awaitRelease)
+                Plugin.Dbg("wheel: gesture aborted (ui open)");
+
+            _phase = Phase.Idle;
+            _awaitRelease = false;
+            return;
+        }
+
         if (_awaitRelease)
         {
             if (!keyHeld)
@@ -124,6 +136,50 @@ internal sealed class WheelInputController
                     CloseWheel();
                 }
                 break;
+        }
+    }
+
+    /// <summary>
+    /// 是否有 UI 遮挡（背包 / 容器 / 菜单打开中）：技能键归 UI 使用，手势不介入。
+    /// 判定三合一（任一成立即视为遮挡）：玩家背包标志 ∪ 手部控制器 IsInventoryOpen()
+    /// （游戏自身判定：手部处于背包姿态）∪ 光标可见（战斗/瞄准时光标不可见）。轮盘自身展开时除外。
+    /// </summary>
+    private bool IsUiBlocking()
+    {
+        if (IsOpen)
+        {
+            return false;
+        }
+
+        try
+        {
+            var player = EFT.GamePlayerOwner.MyPlayer;
+            if (player != null)
+            {
+                if (player.IsInventoryOpened)
+                {
+                    return true;
+                }
+
+                var hands = player.HandsController as EFT.Player.FirearmController;
+                if (hands != null && hands.IsInventoryOpen())
+                {
+                    return true;
+                }
+            }
+        }
+        catch
+        {
+            // ignore — 走光标兜底
+        }
+
+        try
+        {
+            return UnityEngine.Cursor.visible;
+        }
+        catch
+        {
+            return false;
         }
     }
 

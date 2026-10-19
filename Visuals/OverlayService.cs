@@ -32,6 +32,7 @@ public sealed class OverlayService : System.IDisposable
     private Font? _font;
     private Camera? _cam;
     private bool? _hudShown;
+    private bool _updateErrorLogged;
 
     private readonly List<Text> _labels = new();
     private readonly List<string> _pendingTexts = new();
@@ -59,21 +60,32 @@ public sealed class OverlayService : System.IDisposable
         if (!show)
             return;
 
-        var scan = _raid.Scan;
-        var wheel = _raid.Wheel;
-        _cam = ResolveCamera();
+        try
+        {
+            var scan = _raid.Scan;
+            var wheel = _raid.Wheel;
+            _cam = ResolveCamera();
 
-        _graphic!.Clear();
-        _pendingTexts.Clear();
-        _pendingPositions.Clear();
-        _pendingColors.Clear();
+            _graphic!.Clear();
+            _pendingTexts.Clear();
+            _pendingPositions.Clear();
+            _pendingColors.Clear();
 
-        DrawMarkers(scan);
-        DrawWheel(wheel);
-        DrawSkillStrip(wheel);
+            DrawMarkers(scan);
+            DrawWheel(wheel);
+            DrawSkillStrip(wheel);
 
-        _graphic.Apply();
-        FlushLabels();
+            _graphic.Apply();
+            FlushLabels();
+        }
+        catch (System.Exception ex)
+        {
+            if (!_updateErrorLogged)
+            {
+                _updateErrorLogged = true;
+                Plugin.Log.LogError($"[CAS] overlay update failed: {ex}");
+            }
+        }
     }
 
     // ── 显示门控：战局 + 活着 + 可操作 ──────────────────────
@@ -394,6 +406,9 @@ public sealed class OverlayService : System.IDisposable
 
     private void FlushLabels()
     {
+        if (_font == null)
+            _font = LoadFont();
+
         while (_labels.Count < _pendingTexts.Count)
             _labels.Add(CreateLabel());
 
@@ -410,6 +425,9 @@ public sealed class OverlayService : System.IDisposable
             if (label.text != _pendingTexts[i])
                 label.text = _pendingTexts[i];
             label.color = _pendingColors[i];
+
+            if (label.font != _font)
+                label.font = _font;
 
             var rect = (RectTransform)label.transform;
             var position = _pendingPositions[i];
@@ -455,6 +473,12 @@ public sealed class OverlayService : System.IDisposable
     {
         if (_canvas != null && _graphic != null)
             return true;
+
+        // 上一场战局遗留：场景卸载会销毁 canvas 及其全部子物体，池里的 Text 全成了
+        // 已销毁对象（访问即 MissingReferenceException → 标签/轮盘文字整体不渲染，
+        // 只剩空轮盘）。重建时清空池 + 重置显示状态，子物体随新 canvas 全部重建。
+        _labels.Clear();
+        _hudShown = null;
 
         try
         {

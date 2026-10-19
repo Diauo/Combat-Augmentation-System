@@ -20,7 +20,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string PluginGuid = "com.rz99.combat-augmentation-system";
     public const string PluginName = "Combat Augmentation System";
-    public const string PluginVersion = "1.0.0";
+    public const string PluginVersion = "1.0.1";
 
     internal static Plugin Instance = null!;
 
